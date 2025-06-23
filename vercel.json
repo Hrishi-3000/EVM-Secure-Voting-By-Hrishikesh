@@ -2,14 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.py",
-      "use": "@vercel/python"
+      "src": "voting_web.py",
+      "use": "@vercel/python",
+      "config": { 
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
     }
   ],
   "routes": [
     {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "voting.web.py"
+      "dest": "voting_web.py",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     }
   ]
 }
