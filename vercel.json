@@ -6,11 +6,16 @@
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.9",
-        "pipVersion": "20.2.4"
+        "maxLambdaSize": "15mb",
+        "includeFiles": "templates/** static/**"
       }
     }
   ],
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "static/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "voting_web.py"
