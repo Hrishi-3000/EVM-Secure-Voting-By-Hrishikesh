@@ -9,20 +9,6 @@ import os
 import os
 from flask import Flask, render_template
 
-app = Flask(__name__, 
-            static_folder='static',
-            static_url_path='/static',
-            template_folder='templates')
-
-# Ensure all routes use render_template()
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-# Add this test route for debugging
-@app.route('/healthcheck')
-def healthcheck():
-    return "OK", 200
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///voting.db'
