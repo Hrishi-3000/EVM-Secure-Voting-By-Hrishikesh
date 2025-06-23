@@ -1,4 +1,5 @@
-Flask==2.0.1
-Flask-SQLAlchemy==2.5.1
-matplotlib==3.4.3
-Werkzeug==2.0.1
+# requirements.txt (updated)
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.3
+Werkzeug==2.3.6
+# Removed matplotlib for now - add back after successful deployment
