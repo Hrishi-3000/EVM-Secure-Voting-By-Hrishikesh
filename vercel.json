@@ -4,28 +4,12 @@
     {
       "src": "*.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "templates/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*\.(css|js|png|jpg|gif|ico))",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/static/(.*)",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      },
-      "dest": "/static/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/voting.web.py",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "dest": "voting.web.py"
     }
   ]
 }
