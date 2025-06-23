@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Instructions</h2>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">How to use the EVM Voting System</h5>
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item">
+                <strong>Admin Panel:</strong> Add candidates and reset the system.
+                <ul>
+                    <li>Login with admin password (default: admin123)</li>
+                    <li>Add candidates by entering comma-separated names</li>
+                    <li>Reset will clear all voting data</li>
+                </ul>
+            </li>
+            <li class="list-group-item">
+                <strong>Voter Panel:</strong> Enter your phone number and vote for your preferred candidate.
+                <ul>
+                    <li>Each phone number can vote only once</li>
+                    <li>Select your preferred candidate</li>
+                </ul>
+            </li>
+            <li class="list-group-item">
+                <strong>Results Panel:</strong> View live voting results.
+                <ul>
+                    <li>See vote counts for each candidate</li>
+                    <li>View pie chart visualization</li>
+                    <li>Export results to CSV or JSON</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+</div>
+<a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Back</a>
+{% endblock %}

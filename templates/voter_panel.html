@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Voter Panel{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">Cast Your Vote</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Select Candidate</label>
+                {% if candidates %}
+                    <div class="list-group">
+                        {% for candidate in candidates %}
+                            <label class="list-group-item">
+                                <input class="form-check-input me-1" type="radio" name="candidate_id" value="{{ candidate.id }}" required>
+                                {{ candidate.name }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">No candidates available for voting.</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Cast Vote</button>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

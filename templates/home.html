@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body text-center">
+        <h2 class="card-title">Welcome to EVM Voting System</h2>
+        <div class="d-grid gap-3 mt-4">
+            <a href="{{ url_for('admin_panel') }}" class="btn btn-primary btn-lg">Admin Panel</a>
+            <a href="{{ url_for('voter_panel') }}" class="btn btn-success btn-lg">Voter Panel</a>
+            <a href="{{ url_for('results_panel') }}" class="btn btn-warning btn-lg">Results Panel</a>
+            <a href="{{ url_for('instructions') }}" class="btn btn-info btn-lg">Instructions</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
