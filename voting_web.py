@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
 from flask_sqlalchemy import SQLAlchemy
-import matplotlib.pyplot as plt
-from io import BytesIO
+import matplotlib
+matplotlib.use('Agg')  # Must be before pyplot import
+from matplotlib import pyplot as plt from io import BytesIO
 import base64
 import csv
 import json
