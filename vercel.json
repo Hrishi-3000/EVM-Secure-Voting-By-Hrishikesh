@@ -5,7 +5,8 @@
       "src": "voting_web.py",
       "use": "@vercel/python",
       "config": {
-        "runtime": "python3.9"
+        "runtime": "python3.9",
+        "pipVersion": "20.2.4"
       }
     }
   ],
