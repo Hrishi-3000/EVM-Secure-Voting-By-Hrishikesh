@@ -1,19 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
 from flask_sqlalchemy import SQLAlchemy
 import matplotlib
-matplotlib.use('Agg')  # Must be before pyplot import
-from matplotlib import pyplot as plt from io import BytesIO
+matplotlib.use('Agg')  # Non-interactive backend
+from matplotlib import pyplot as plt
+from io import BytesIO
 import base64
 import csv
 import json
 import os
-import os
-from flask import Flask, render_template
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///voting.db'
+# Initialize Flask app
+app = Flask(__name__, static_folder='static', template_folder='templates')
+app.secret_key = os.environ.get('SECRET_KEY', 'fallback_secret_key_here')
+
+# Database Configuration for Vercel
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///voting.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_pre_ping': True}  # For connection stability
+
 db = SQLAlchemy(app)
 
 # Database Models
@@ -27,29 +31,60 @@ class Voter(db.Model):
     phone_number = db.Column(db.String(20), unique=True, nullable=False)
     has_voted = db.Column(db.Boolean, default=False)
 
-# Create tables
+# Create tables (with error handling)
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+    except Exception as e:
+        print(f"Database initialization error: {str(e)}")
 
-# Admin password
-ADMIN_PASSWORD = "admin123"
+# Admin configuration
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+
+# Error Handlers
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template('500.html'), 500
 
 # Routes
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')  # Changed from home.html to index.html
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_panel():
     if request.method == 'POST':
-        # Handle admin login
-        password = request.form.get('password')
-        if password != ADMIN_PASSWORD:
-            flash('Incorrect password. Access denied.', 'danger')
+        if request.form.get('password') != ADMIN_PASSWORD:
+            flash('Incorrect password', 'danger')
             return redirect(url_for('admin_panel'))
-        
         session['admin_logged_in'] = True
         return redirect(url_for('admin_dashboard'))
+    return render_template('admin_login.html')
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin_panel'))
+    candidates = Candidate.query.all()
+    return render_template('admin_dashboard.html', candidates=candidates)
+
+@app.route('/admin/add_candidates', methods=['POST'])
+def add_candidates():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin_panel'))
+    
+    names = [name.strip() for name in request.form.get('candidates', '').split(',') if name.strip()]
+    for name in names:
+        if not Candidate.query.filter_by(name=name).first():
+            db.session.add(Candidate(name=name))
+    db.session.commit()
+    flash('Candidates added', 'success')
+    return redirect(url_for('admin_dashboard'))
+
     
     return render_template('admin_login.html')
 
@@ -183,5 +218,6 @@ def export_json():
 def instructions():
     return render_template('instructions.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ != '__main__':
+    # This ensures Gunicorn can find the app
+    gunicorn_app = app
