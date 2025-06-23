@@ -1,6 +1,4 @@
-# requirements.txt (updated)
 Flask==2.3.2
 Flask-SQLAlchemy==3.0.3
 Werkzeug==2.3.6
-matplotlib-base==3.7.2  # Use base version without UI dependencies
-# Removed matplotlib for now - add back after successful deployment
+# matplotlib==3.7.2  # Removed for now - add back after successful deployment
