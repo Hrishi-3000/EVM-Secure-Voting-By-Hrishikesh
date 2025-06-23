@@ -1,8 +1,9 @@
+// vercel.json
 {
   "version": 2,
   "builds": [
     {
-      "src": "*.py",
+      "src": "voting.web.py",
       "use": "@vercel/python",
       "config": {
         "runtime": "python3.9"
