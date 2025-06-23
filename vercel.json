@@ -4,21 +4,15 @@
     {
       "src": "voting_web.py",
       "use": "@vercel/python",
-      "config": { 
-        "maxLambdaSize": "15mb",
+      "config": {
         "runtime": "python3.9"
       }
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "voting_web.py",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      "dest": "voting_web.py"
     }
   ]
 }
