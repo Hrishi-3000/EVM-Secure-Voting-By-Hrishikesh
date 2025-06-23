@@ -21,3 +21,10 @@
     }
   ]
 }
+"routes": [
+  ...,
+  {
+    "src": "/(.*\.(html|css|js))",
+    "dest": "templates/$1"
+  }
+]
