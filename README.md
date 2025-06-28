@@ -15,7 +15,7 @@ A secure and user-friendly Electronic Voting Machine (EVM) system built with Pyt
 
 ## Technology Stack
 
-- **Backend**: Python, Flask
+- **Backend**: Python, Flask 
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Database**: SQLite
 - **Data Visualization**: Matplotlib
